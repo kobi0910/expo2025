@@ -171,6 +171,11 @@
             vertical-align: middle
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -178,29 +183,36 @@
             font-size: 16px;
         }
 
-        section {
-            width: 100%;
-        }
-
-        section>div {
+        header>div,
+        main>div {
             width: 80%;
             max-width: 1000px;
             margin: auto;
         }
 
-        section:has(h1) {
+        header {
             background-color: #0068b7;
+            margin-bottom: 2em;
+        }
+
+        main {
+            padding-bottom: 2em;
+            background: url(https://ticket.expo2025.or.jp/_next/static/media/bg_01_sp.a7c93ef3.png) center -160% no-repeat fixed;
+            background-size: cover;
+        }
+
+        section:last-of-type {
+            /*background: url(https://ticket.expo2025.or.jp/_next/static/media/bg_01_sp.a7c93ef3.png) bottom no-repeat;
+            background-size: cover;*/
         }
 
         h1 {
-            font-size: 2em;
-            font-family: "jf柑仔蜜 1.0";
+            font-size: 1.5em;
             color: #fff;
             padding: 1em 0;
         }
 
         #news-container {
-            margin: 3em 0;
             display: flex;
             flex-wrap: wrap;
             gap: 1em;
@@ -208,9 +220,10 @@
 
         .news-item {
             flex: 1 0 25%;
-            background: #ddd;
+            background: #e5e5e5c4;
             border-radius: 5px;
             padding: 2em;
+            backdrop-filter: blur(10px);
         }
 
         .news-item * {
@@ -251,7 +264,7 @@
 
         #load-more {
             display: none;
-            margin: 0 auto 3em;
+            margin: 2em auto 0;
             padding: 1em 2em;
             font-size: 1em;
             cursor: pointer;
@@ -260,20 +273,18 @@
 </head>
 
 <body>
-    <section>
+    <header>
         <div>
-            <h1>2025 大阪萬博新聞</h1>
+            <h1>EXPO 2025 OSAKA NEWS</h1>
         </div>
+    </header>
 
-    </section>
-
-    <section>
+    <main>
         <div>
             <div id="news-container">載入中...</div>
             <button id="load-more">載入更多</button>
         </div>
-
-    </section>
+    </main>
 
     <script>
         const rssUrl = "https://news.google.com/rss/search?q=2025+大阪萬博&hl=zh-TW&gl=TW&ceid=TW:zh-Hant";
