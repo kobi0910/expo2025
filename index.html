@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 大阪萬博新聞</title>
+    <style>
+        /*
+        *  html5resetcss
+        */
+        html,
+        body,
+        div,
+        span,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        abbr,
+        address,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        q,
+        samp,
+        small,
+        strong,
+        sub,
+        sup,
+        var,
+        b,
+        i,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        article,
+        aside,
+        canvas,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section,
+        summary,
+        time,
+        mark,
+        audio,
+        video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            font-size: 100%;
+            vertical-align: baseline;
+            background: transparent
+        }
+
+        body {
+            line-height: 1
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block
+        }
+
+        nav ul {
+            list-style: none
+        }
+
+        blockquote,
+        q {
+            quotes: none
+        }
+
+        blockquote:before,
+        blockquote:after,
+        q:before,
+        q:after {
+            content: none
+        }
+
+        a {
+            margin: 0;
+            padding: 0;
+            font-size: 100%;
+            vertical-align: baseline;
+            background: transparent
+        }
+
+        ins {
+            background-color: #ff9;
+            color: #000;
+            text-decoration: none
+        }
+
+        mark {
+            background-color: #ff9;
+            color: #000;
+            font-style: italic;
+            font-weight: bold
+        }
+
+        del {
+            text-decoration: line-through
+        }
+
+        abbr[title],
+        dfn[title] {
+            border-bottom: 1px dotted;
+            cursor: help
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+        hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0
+        }
+
+        input,
+        select {
+            vertical-align: middle
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        section {
+            width: 100%;
+        }
+
+        section>div {
+            width: 80%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        section:has(h1) {
+            background-color: #0068b7;
+        }
+
+        h1 {
+            font-size: 2em;
+            font-family: "jf柑仔蜜 1.0";
+            color: #fff;
+            padding: 1em 0;
+        }
+
+        #news-container {
+            margin: 3em 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+        }
+
+        .news-item {
+            flex: 1 0 25%;
+            background: #ddd;
+            border-radius: 5px;
+            padding: 2em;
+        }
+
+        .news-item * {
+            margin-bottom: 1em;
+        }
+
+        .news-item *:last-child {
+            margin-bottom: 0;
+        }
+
+        .news-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            line-height: 1.6em;
+        }
+
+        .news-title a {
+            display: block;
+            color: #222;
+            text-decoration: none;
+            transition: ease .3s;
+        }
+
+        .news-title a:hover {
+            color: #e60012;
+            transition: ease .3s;
+        }
+
+        .news-media {
+            font-size: .9em;
+            color: #0068b7;
+        }
+
+        .news-date {
+            font-size: .8em;
+            color: gray;
+        }
+
+        #load-more {
+            display: none;
+            margin: 0 auto 3em;
+            padding: 1em 2em;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div>
+            <h1>2025 大阪萬博新聞</h1>
+        </div>
+
+    </section>
+
+    <section>
+        <div>
+            <div id="news-container">載入中...</div>
+            <button id="load-more">載入更多</button>
+        </div>
+
+    </section>
+
+    <script>
+        const rssUrl = "https://news.google.com/rss/search?q=2025+大阪萬博&hl=zh-TW&gl=TW&ceid=TW:zh-Hant";
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+
+        let newsItems = [];  // 儲存所有新聞
+        let currentIndex = 0; // 當前顯示到第幾條新聞
+        const batchSize = 9; // 每次顯示 20 條新聞
+
+        async function fetchGoogleNews() {
+            try {
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+
+                newsItems = Array.from(xmlDoc.querySelectorAll("item")).map(item => {
+                    let title = item.querySelector("title").textContent;
+                    let source = item.querySelector("source") ? item.querySelector("source").textContent : "未知來源";
+
+                    // **刪除標題末尾的媒體名稱**
+                    title = title.replace(/\s*[-|]\s*[^-|\n]+$/, ""); // 移除最後的「- 媒體名」或「| 媒體名」
+
+                    return {
+                        title: title,
+                        link: item.querySelector("link").textContent,
+                        pubDate: new Date(item.querySelector("pubDate").textContent),
+                        source: source
+                    };
+                });
+
+                newsItems.sort((a, b) => b.pubDate - a.pubDate);
+                currentIndex = 0;
+
+                if (newsItems.length > 0) {
+                    document.getElementById("news-container").innerHTML = "";
+                    displayNextBatch();
+                } else {
+                    document.getElementById("news-container").innerHTML = "沒有找到相關新聞";
+                }
+            } catch (error) {
+                console.error("獲取新聞失敗：", error);
+                document.getElementById("news-container").innerHTML = "無法獲取新聞，請稍後再試。";
+            }
+        }
+
+
+        function displayNextBatch() {
+            const newsContainer = document.getElementById("news-container");
+
+            for (let i = currentIndex; i < Math.min(currentIndex + batchSize, newsItems.length); i++) {
+                const item = newsItems[i];
+
+                const newsItem = document.createElement("div");
+                newsItem.className = "news-item";
+                newsItem.innerHTML = `
+                    <div class="news-media">${item.source}</div>
+                    <div class="news-title"><a href="${item.link}" target="_blank">${item.title}</a></div>
+                    <div class="news-date">發布日期：${item.pubDate.toLocaleDateString("zh-TW")}</div>
+                `;
+                newsContainer.appendChild(newsItem);
+            }
+
+            currentIndex += batchSize;
+
+            // 如果還有更多新聞，顯示「載入更多」按鈕
+            const loadMoreButton = document.getElementById("load-more");
+            if (currentIndex < newsItems.length) {
+                loadMoreButton.style.display = "block";
+            } else {
+                loadMoreButton.style.display = "none";
+            }
+        }
+
+        document.getElementById("load-more").addEventListener("click", displayNextBatch);
+
+        fetchGoogleNews();
+    </script>
+</body>
+
+</html>
