@@ -5,14 +5,21 @@
 html,
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
     font-size: 16px;
+    line-height: 1.6;
 }
 
 body {
-    background: url(images/bg.png) no-repeat center bottom fixed;
+    background: url(../images/bg.png) no-repeat center 400px fixed;
     background-size: cover;
+}
+
+header {
+    background-color: #0068b7;
+}
+
+main {
+    padding: 2rem 0;
 }
 
 header>div,
@@ -22,38 +29,30 @@ main>div {
     margin: auto;
 }
 
-header {
-    background-color: #0068b7;
-    margin-bottom: 2em;
-}
-
-main {
-    padding-bottom: 2em;
-}
-
 h1 {
-    font-size: 1.5em;
+    font-size: 1.5rem;
+    line-height: 1em;
     color: #fff;
-    padding: 1em 0;
+    padding: 1rem 0;
 }
 
 #news-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 1rem;
 }
 
 .news-item {
     flex: 1 0 25%;
     background: #e5e5e5c4;
     border-radius: 5px;
-    padding: 2em;
+    padding: 2rem;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
 .news-item * {
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 
 .news-item *:last-child {
@@ -62,8 +61,7 @@ h1 {
 
 .news-title {
     font-weight: bold;
-    font-size: 1.2em;
-    line-height: 1.6em;
+    font-size: 1.2rem;
 }
 
 .news-title a {
@@ -79,21 +77,25 @@ h1 {
 }
 
 .news-media {
-    font-size: .9em;
-    color: #0068b7;
+    font-size: .9rem;
+    color: hsl(206, 100%, 36%);
 }
 
 .news-date {
-    font-size: .8em;
+    font-size: .8rem;
     color: #606060;
 }
 
 #load-more {
-    display: none;
-    margin: 2em auto 0;
-    padding: 1em 2em;
-    font-size: 1em;
+    margin: 2rem auto 0;
+    padding: 1rem 2rem;
     cursor: pointer;
+    display: none;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
 }
 
 @media screen and (max-width: 992px) {
