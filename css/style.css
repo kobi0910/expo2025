@@ -11,7 +11,7 @@ body {
 }
 
 body {
-    background: url(https://ticket.expo2025.or.jp/_next/static/media/bg_01_sp.a7c93ef3.png) center 800px no-repeat fixed;
+    background: url(images/bg.png) no-repeat center bottom fixed;
     background-size: cover;
 }
 
